@@ -5,8 +5,8 @@ The project is a software system designed for managing the accounting tasks of a
 
 The Pizza Shop System is an accounting system primarily used for placing orders and viewing overall sales information. It also contains functionality for the manager of the establishment to edit employee information and delivery vehicle information.
 
-Authors : Bhakti Patel
-          Ethan Scott
-          Madeline Severance
-          Connor Mathis
-          Timia Mitchell
+Authors : Bhakti Patel,
+          Ethan Scott,
+          Madeline Severance,
+          Connor Mathis,
+          Timia Mitchell.

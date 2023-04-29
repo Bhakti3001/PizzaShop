@@ -1,0 +1,28 @@
+/************************************************************************************************************************
+ * Author:                   Bhakti Patel
+ * Date Created:             3/17/2023
+ * Last Editted:             3/17/2023
+ * Purpose:                  The purpose of this class is to connect to a specific database (local database)
+ ***********************************************************************************************************************/
+
+package application;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class DatabaseConnection {
+
+	public static Connection getConnection() {
+		try {
+
+			Connection con;
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/PizzaShop", "YOUR ID (USUALLY root)", "YOUR PASSWORD");
+			System.out.println("Success");
+			return con;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+}

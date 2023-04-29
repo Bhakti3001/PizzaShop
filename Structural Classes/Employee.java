@@ -1,0 +1,166 @@
+/************************************************************************************************************************
+ * Author:                   Bhakti Patel
+ * Date Created:             3/4/2023
+ * Last Editted:             3/17/2023
+ * 
+ * Purpose:                  The purpose of this class is to create an instantiation of an Employee within the system.
+ *                           Within this class are the appropriate getters and setters for related variables
+ *                           (EmployeeName, EmployeeID, EmployeeAddress, EmployeePhone); constructors;                          
+ */
+
+package application;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+/**
+ * Employee class to keep track of employee information
+ * @author bhaktipatel
+ *
+ */
+public class Employee {
+
+	int empID;
+	String empName ;
+	String empAdd;
+	String empPhone;
+	//Setters and getters
+	
+	public void setEmpID() {
+		this.empID = empID;
+	}
+
+	public int getEmpID() {
+		return empID;
+	}
+
+	public void setEmpName() {
+		this.empName = empName;
+	}
+
+	public void setEmpAdd() {
+		this.empAdd = empAdd;
+	}
+
+	public void setEmpPhone() {
+		this.empPhone = empPhone;
+	}
+
+	public String getEmpName() {
+		return empName;
+	}
+
+	public String getEmpAdd() {
+		return empAdd;
+	}
+
+	public String getEmpPhone() {
+		return empPhone;
+	}
+	/**
+	 * default constructor
+	 * @param empID
+	 * @param empName
+	 * @param empAdd
+	 * @param empPhone
+	 */
+	public Employee(int empID, String empName, String empAdd, String empPhone) {
+		this.empID = empID;
+		this.empName = empName;
+		this.empAdd = empAdd;
+		this.empPhone = empPhone;
+	}
+
+	/**
+	 * 
+	 * @return list of all the employees from the database
+	 */
+	public static ObservableList<Employee> getEmployeeInfo() {
+
+		ObservableList<Employee> list = FXCollections.observableArrayList(); //creating the list
+		Connection con = DatabaseConnection.getConnection();  //connecting to the database
+		String sql = "select * from employee;";   //Query for retrieving information of the employee
+		Statement s;
+		ResultSet rs;
+		try {
+			//create statement and execute the statement
+			
+			s = con.createStatement();
+			rs = s.executeQuery(sql);
+			Employee employee;
+			
+			//creating employee objects and adding it to the list
+			while (rs.next()) {
+				employee = (new Employee(rs.getInt("emp_ID"), rs.getString("emp_name"), rs.getString("emp_add"),
+						rs.getString("emp_phone")));
+				list.add(employee);
+			}
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param employee name
+	 * @return if employee name is valid or not
+	 */
+	public static boolean checkEmployeeName(String EmpName) {
+
+		Pattern p = Pattern.compile("[a-zA-Z ]+" ); // can have a-z, A-Z
+		
+		Matcher m = p.matcher(EmpName);                 //Matches the pattern with the employee name
+		
+
+		return m.matches();     //returns true/false if the pattern matches the employee name or not
+	}
+
+	/**
+	 * 
+	 * @param employee address
+	 * @return if employee address is valid or not
+	 */
+	public static boolean checkEmployeeAddress(String EmpAddress) {
+
+		Pattern p = Pattern.compile("[a-zA-Z0-9, ]+" ); // can have a-z, A-Z, 0-9, ','
+		
+		Matcher m = p.matcher(EmpAddress);                 //Matches the pattern with the employee address
+		
+
+		return m.matches();     //returns true/false if the pattern matches the employee address or not
+	}
+	
+	/**
+	 * 
+	 * @param employee phone
+	 * @return if employee phone is valid or not
+	 */
+	public static boolean checkEmployeePhone(String EmpPhone) {
+
+		Pattern p = Pattern.compile("[0-9]+" ); // can have 0-9,
+		
+		Matcher m = p.matcher(EmpPhone);                 //Matches the pattern with the employee phone
+		
+
+		return m.matches();     //returns true/false if the pattern matches the employee phone or not
+	}
+	/**
+	*
+	*@param employee phone
+	* @return if employee phone is valid or not
+	*/
+	public static boolean checkValidPhone(String EmpPhone) {
+		if (EmpPhone.length() <= 10)
+			return true;
+		else
+			return false;
+	}
+
+}
